@@ -1,0 +1,237 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[french]{babel}
+\usepackage{amsmath}
+\usepackage[osf,sups]{Baskervaldx} % lining figures
+\usepackage[bigdelims,cmintegrals,vvarbb,baskervaldx]{newtxmath} % math font
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{url}
+\usepackage[hidelinks]{hyperref}
+
+% hyperrref configuration: remove ugly boxes and colors, keep urls in blue
+\hypersetup{colorlinks,linkcolor=black,citecolor=black,urlcolor={blue!80!black}}
+
+
+% paragraphs
+\setlength{\parindent}{0em}
+\setlength{\parskip}{1em}
+
+% margins
+\addtolength{\hoffset}{-4em}
+\addtolength{\textwidth}{8em}
+\addtolength{\voffset}{-5em}
+\addtolength{\textheight}{10em}
+
+% macros
+\def\ud{\mathrm{d}}
+
+\begin{document}
+\thispagestyle{empty}
+
+{\bf
+	%Calcul numérique des fonctions de Mathieu et de leurs racines.
+	%De la loi de Snell-Descartes aux symboles de Christoffel.
+	Plongement des variétés de Jacobi-Maupertuis
+}
+
+{\bf Encadrants}:\\
+Enric Meinhardt-Llopis \verb+<enric.meinhardt@ens-paris-saclay.fr>+\\
+Léo Nicollier \verb+<leo.nicollier@ens-paris-saclay.fr>+
+
+{\bf Objectif.}
+L'objectif du stage est de construire des surfaces de révolution
+en~$\mathbf{R}^3$ dont les géodésiques correspondent à les trajectoires d'un
+système mécanique avec un potentiel central (orbites de Kepler, oscillations de
+Hooke, etc).  Plus précisément, étant donnée une métrique radiale et conforme
+sur le plan
+\[
+	g = g\left(\sqrt{x^2+y^2}\right)(\ud x^2+\ud y^2)
+\]
+il faut trouver une surface paramétrée~$\varphi:\mathbf{R}^2\to\mathbf{R}^3$
+qui soit isométrique à la variété abstraite définie par~$g$.  Formellement,
+cette condition revient à un système d'EDP non-linéaires de premier ordre
+\[
+	\varphi_x \cdot\varphi_x = g
+	\qquad
+	\quad
+	\varphi_y \cdot\varphi_y = g
+	\qquad
+	\quad
+	\varphi_x \cdot\varphi_y = 0
+\]
+que l'on devra résoudre pour trouver le plongement.  Pour les surfaces de
+révolution,~$\varphi$ est déterminée par une seule
+fonction~$f:\mathbf{R}\to\mathbf{R}$ et l'EDP dévient une EDO pour~$f$.
+D'autre côté,
+selon le principe de Maupertuis, les trajectoires d'un système physique avec
+potentiel~$V(\mathbf{q})$ et énergie totale~$E$ sont, à paramétrisation près,
+les géodésiques de la métrique de
+Jacobi~$g=\sqrt{E-V(\mathbf{q})}\ud\mathbf{q}^2$.  Ainsi, résoudre le problème du
+plongement permettra de voir les trajectoires de tout système physique avec un
+potentiel radial comme les géodésiques d'une surface concrète de l'espace.
+On ne comprend pas pourquoi ces surfaces n'apparaissent pas sur la couverture
+de tous les livres de mécanique.
+%L'objectif du stage est de prendre la loi de réfraction de Snell-Descartes
+%\begin{equation}\label{eq:snell}
+%\frac{\sin\theta_1}{v_1}=\frac{\sin\theta_2}{v_2}
+%\end{equation}
+%la manipuler, d'une manière ou d'une autre, et arriver aux équations des
+%géodésiques sur une variété~\cite{vdg}
+%\begin{equation}\label{eq:geo}
+%\ddot q^k = \Gamma^k_{ij}\,\dot q^i\,\dot q^j
+%\end{equation}
+%Les équations~(\ref{eq:snell}) et~(\ref{eq:geo}) décrivent le même phénomène
+%physique~: la trajectoire la plus rapide dans un milieu non homogène.  Ainsi,
+%il est naturel qu'elles soient équivalentes.  En effet, l'application
+%successive de la loi de Snell-Descartes sur des couches de plus en plus fines
+%amène à une équation différentielle~\cite{video2}.
+%%pour en avoir une visualisation voir
+%Les solutions de cette équation se retrouvent être les géodésiques d'une
+%variété Riemannienne dont la métrique est induite par l'indice de réfraction.
+%L'objectif du stage est ainsi d'éteindre ce résultat au cas des métriques
+%non-conformes (vitesse de propagation différente selon la direction) et
+%non-constantes au long d'une dimension.
+
+%\begin{tabular}{ccccc}
+%	\includegraphics[width=0.20\linewidth]{f/snell.png}&
+%	\includegraphics[width=0.25\linewidth]{f/snellN.png}&
+%	\includegraphics[width=0.25\linewidth]{f/snellC2.png}&
+%	$\color{red}\cdots$&
+%	\includegraphics[width=0.18\linewidth]{f/geodesicsn.png}\\
+%	$\frac{\sin\theta_1}{v_1}=\frac{\sin\theta_2}{v_2}$&
+%	$\frac{\sin\theta_i}{v_i}=K$&
+%	$\frac{\sin\arctan\frac{dx}{dy}}{v(y)}=K$&
+%	{\color{red}\bf ?} &
+%	$\ddot q^k = \Gamma^k_{ij}\,\dot q^i\,\dot q^j$
+%\end{tabular}
+
+{\bf Contexte.}
+Le principe de moindre action de Maupertuis
+%L'analogie entre optique et mécanique date des temps de Newton et
+%Bernouilli~\cite{broer}, qui l'a utilisée pour résoudre le problème de la
+%brachistocrhone (la forme de la pente qui permet d'y glisser avec le moindre
+%temps).  Ainsi, la forme optimale correspond à la trajectoire d'un rayon
+%lumineux sur un milieu non-homogène avec vitesse de propagation~$v=1/\sqrt{y}$.
+%Le même raisonnement permet de retrouver les géodésiques sur le demi-plan de
+%Poincaré~($v=1/y$) ou encore le tir parabolique~($v=y/\sqrt{1+y^2}$).  Par
+%passage à coordonnées polaires, cela permettra aussi de caractériser le
+%mouvement sous un potentiel central.  Si bien l'extension de la loi de Snell
+%aux métriques non-isotropiques, ou même Finslériennes~\cite{markvorsen}, est un
+%calcul élémentaire, son application au calcul général de géodésiques est---à
+%notre connaissance---un problème ouvert.
+
+
+{\bf Déroulement.}
+Ce stage s'adresse aux étudiants qui souhaitent approfondir leurs connaissances
+en géométrie Riemannienne et en calcul des variations.  Selon les préférences
+des étudiants, on pourra faire plus ou moins des simulations par ordinateur
+afin de vérifier numériquement les résultats trouvés.
+
+
+\vspace{-1.5em}
+\renewcommand{\refname}{\normalsize Références}
+%
+\begin{thebibliography}{99}
+\vspace{-1em}
+{\scriptsize
+%\bibitem{icaza}
+%	de~Icaza,~M.
+%	{\it Galileo, Bernoulli, Leibniz and Newton around the brachistocrhone
+%		problem},
+%	Rev.~Mex.~Phys.,~1994
+%\bibitem{erlichson}
+%	Erlichson,~E.
+%	{\it Johann Bernoulli's brachistocrhone solution using Fermat's
+%		principle of least time},
+%	Eur.~J.~Phys.,~1999
+\bibitem{broer}
+	Broer,~H.~W.
+	{\it Bernoulli's light ray solution of the brachistocrhone problem
+		through Hamilton's eyes},
+	Int.~J.~Bifurc.~Chaos,~2014
+\bibitem{video}
+	3Blue1Brown
+	{\it The Brachistochrone, with Steven Strogatz},
+	\url{https://youtu.be/Cld0p3a43fU},~2016
+\bibitem{video2}
+	Veritasium
+	{\it The Closest We’ve Come to a Theory of Everything},
+	\url{https://youtu.be/Q10_srZ-pbs},~2024
+\bibitem{vdg}
+	Needham,~T.
+	{\it Visual differential geometry and forms.}
+	Princeton University Press,~2021
+\vspace{-0.5em}
+\bibitem{markvorsen}
+	Markvorsen,~S., et al.
+	{\it Snell's law revisited and generalized via Finsler geometry},
+	Int.~J.~Geom.~Methods~Mod.~Phys.,~2023
+}
+\end{thebibliography}
+
+\cleardoublepage
+\Large
+\[
+	\color{blue}
+	\frac{\sin\theta_1}{v_1}=\frac{\sin\theta_2}{v_2}
+	\qquad
+	%\ddot q^k = \Gamma^k_{ij}\dot q^i\dot q^j
+	\qquad
+	\color{red}
+	\frac{\ud^2 x^k}{\ud t^2}
+	=
+	\Gamma^k_{ij}
+	\,
+	\frac{\ud x^i}{\ud t}
+	\,
+	\frac{\ud x^j}{\ud t}
+\]
+\[
+	\color{blue}
+	\frac{\sin\theta_1}{v_1}
+	=
+	\frac{\sin\theta_2}{v_2}
+	=
+	\frac{\sin\theta_3}{v_3}
+\]
+\[
+	\color{blue}
+	\frac{\sin\theta_1}{v_1}
+	=
+	\frac{\sin\theta_2}{v_2}
+	=
+	\frac{\sin\theta_3}{v_3}
+	=
+	K
+\]
+\[
+	\color{blue}
+	\frac{\sin\theta_i}{v_i}
+	=
+	K
+\]
+\[
+	\color{blue}
+	\frac{\sin\theta(x)}{v(x)}
+	=
+	K
+\]
+\[
+	\color{blue}
+	\frac{\sin\arctan\frac{dy}{dx}}{v(x)}
+	=
+	K
+\]
+\[
+	\color{blue}
+	\frac{y'(x)}{v(x)\sqrt{1+y'(x)^2}}
+	=
+	K
+\]
+
+
+\end{document}
+
+
+% vim:set tw=79 spell spelllang=fr:
