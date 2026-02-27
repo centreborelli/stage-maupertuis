@@ -18,10 +18,10 @@
 \setlength{\parskip}{1em}
 
 % margins
-\addtolength{\hoffset}{-4em}
-\addtolength{\textwidth}{8em}
-\addtolength{\voffset}{-5em}
-\addtolength{\textheight}{10em}
+\addtolength{\hoffset}{-3em}
+\addtolength{\textwidth}{6em}
+\addtolength{\voffset}{-3em}
+\addtolength{\textheight}{6em}
 
 % macros
 \def\ud{\mathrm{d}}
@@ -30,8 +30,6 @@
 \thispagestyle{empty}
 
 {\bf
-	%Calcul numérique des fonctions de Mathieu et de leurs racines.
-	%De la loi de Snell-Descartes aux symboles de Christoffel.
 	Plongement des variétés de Jacobi-Maupertuis
 }
 
@@ -40,38 +38,94 @@ Enric Meinhardt-Llopis \verb+<enric.meinhardt@ens-paris-saclay.fr>+\\
 Léo Nicollier \verb+<leo.nicollier@ens-paris-saclay.fr>+
 
 {\bf Objectif.}
+%L'objectif du stage est de construire des surfaces de révolution
+%en~$\mathbf{R}^3$ dont les géodésiques correspondent aux trajectoires d'un
+%système mécanique avec un potentiel central (orbites de Kepler, oscillations de
+%Hooke, etc).  On sait bien que ces surfaces existent~\cite{arnomech}, mais
+%elles sont très rarement construites explicitement dans les ouvrages de
+%physique.  En chemin, on rencontrera et on résoudra les obstructions classiques
+%du problème du plongement isométrique~\cite{rouviere}, célèbrement étudié par
+%Nash et Kuiper.
 L'objectif du stage est de construire des surfaces de révolution
-en~$\mathbf{R}^3$ dont les géodésiques correspondent à les trajectoires d'un
-système mécanique avec un potentiel central (orbites de Kepler, oscillations de
-Hooke, etc).  Plus précisément, étant donnée une métrique radiale et conforme
-sur le plan
-\[
-	g = g\left(\sqrt{x^2+y^2}\right)(\ud x^2+\ud y^2)
-\]
-il faut trouver une surface paramétrée~$\varphi:\mathbf{R}^2\to\mathbf{R}^3$
-qui soit isométrique à la variété abstraite définie par~$g$.  Formellement,
-cette condition revient à un système d'EDP non-linéaires de premier ordre
-\[
-	\varphi_x \cdot\varphi_x = g
-	\qquad
-	\quad
-	\varphi_y \cdot\varphi_y = g
-	\qquad
-	\quad
-	\varphi_x \cdot\varphi_y = 0
-\]
-que l'on devra résoudre pour trouver le plongement.  Pour les surfaces de
-révolution,~$\varphi$ est déterminée par une seule
-fonction~$f:\mathbf{R}\to\mathbf{R}$ et l'EDP dévient une EDO pour~$f$.
-D'autre côté,
-selon le principe de Maupertuis, les trajectoires d'un système physique avec
-potentiel~$V(\mathbf{q})$ et énergie totale~$E$ sont, à paramétrisation près,
-les géodésiques de la métrique de
-Jacobi~$g=\sqrt{E-V(\mathbf{q})}\ud\mathbf{q}^2$.  Ainsi, résoudre le problème du
-plongement permettra de voir les trajectoires de tout système physique avec un
-potentiel radial comme les géodésiques d'une surface concrète de l'espace.
-On ne comprend pas pourquoi ces surfaces n'apparaissent pas sur la couverture
-de tous les livres de mécanique.
+dans~$\mathbf{R}^3$ dont les géodésiques correspondent aux trajectoires d'un
+système mécanique soumis à un potentiel central (orbites de Kepler,
+oscillations de Hooke, etc.). On sait que ces surfaces
+existent~\cite{arnomech},
+mais elles ne sont jamais construites explicitement dans les ouvrages de
+physique.  Au cours du projet, on rencontrera et on étudiera les obstructions
+classiques du problème du plongement isométrique~\cite{rouviere}, célèbrement
+étudié par Nash et Kuiper.
+
+{\bf Contexte.}
+%Les trajectoires d'un système mécanique sous un potentiel~$V$ sont les
+%solutions de l'équation différentielle~$\ddot q\!=\!-\nabla V(q)$.  Selon le
+%\underline{principe de Maupertuis} ces trajectoires sont aussi, à
+%reparamétrisation près, les géodésiques de la métrique de
+%Jacobi~$g\!=\!2(E-V)dq^2$, où~$E$ est l'énergie totale de la trajectoire.  Le
+%\underline{théorème de plongement de Nash} dit que toute variété Riemannienne
+%de dimension~$n$ peut se réaliser comme sous-variété d'un espace
+%euclidien~$\mathbf{R}^N$ avec~$N\le n(n+1)(3m+11)/2$, et souvent beaucoup plus
+%petit.  La preuve du théorème de Nash amène à une construction du
+%plongement.  Dans ce stage on étudiera le cas particulier~$n=2$ avec la
+%métrique de Jacobi provenant d'un potentiel central, que l'on essaiera de
+%plonger en dimension~$N=3$ comme une surface de révolution.  Puisque les
+%surfaces de révolution sont décrites par une seule courbe génératrice, les EDP
+%qui contraignent le plongement deviennent des EDO, que l'on pourra résoudre
+%explicitement.
+Les trajectoires d’un système mécanique sous un potentiel~$V$ sont les
+solutions de $\ddot q = -\nabla V(q)$.  Selon le \underline{principe de
+Maupertuis}, elles coïncident, à reparamétrisation près, avec les géodésiques
+de la métrique de Jacobi $g = 2(E-V)dq^2$, où $E$ est l'énergie totale.
+Le \underline{théorème de Nash} garantit que toute variété riemannienne de dimension~$n$
+peut être plongée dans un espace euclidien $\mathbf{R}^N$ avec $N \le
+{n(n+1)(3n+11)}/{2}$, et sa démonstration fournit un procédé de
+construction.
+Le stage portera sur le cas $n=2$, avec la métrique de Jacobi d’un potentiel
+central, que l’on cherchera à plonger en dimension~$N=3$ comme surface de
+révolution. Dans ce cadre, les équations aux dérivées partielles se réduisent à
+des équations différentielles ordinaires que l’on pourra résoudre
+explicitement.
+
+%Principe de Maupertuis : les trajectoires d’un système mécanique de potentiel V(q) et d’énergie totale E sont, à reparamétrisation près, les géodésiques de la métrique de Jacobi
+%
+%    g = 2(E − V) dq^2
+%
+%Pour un système planaire à potentiel radial ( q∈R^2, V=V(|q|) ), se pose naturellement la question de plonger cette métrique isométriquement comme surface de révolution dans R^3. Cela inclut des cas particuliers intéressants : les orbites de Kepler, les oscillateurs de Hooke, etc.
+%
+%Ces surfaces « mécaniques » sont très rarement mentionnées dans les ouvrages de physique. C'est dommage. L’objectif du stage est de construire ces surfaces et de les imprimer en 3D.
+%
+%L'objectif du stage est de construire des surfaces de révolution
+%en~$\mathbf{R}^3$ dont les géodésiques correspondent à les trajectoires d'un
+%système mécanique avec un potentiel central (orbites de Kepler, oscillations de
+%Hooke, etc).  Plus précisément, étant donnée une métrique radiale et conforme
+%sur le plan
+%\[
+%	g = g\left(\sqrt{x^2+y^2}\right)(\ud x^2+\ud y^2)
+%\]
+%il faut trouver une surface paramétrée~$\varphi:\mathbf{R}^2\to\mathbf{R}^3$
+%qui soit isométrique à la variété abstraite définie par~$g$.  Formellement,
+%cette condition revient à un système d'EDP non-linéaires de premier ordre
+%\[
+%	\varphi_x \cdot\varphi_x = g
+%	\qquad
+%	\quad
+%	\varphi_y \cdot\varphi_y = g
+%	\qquad
+%	\quad
+%	\varphi_x \cdot\varphi_y = 0
+%\]
+%que l'on devra résoudre pour trouver le plongement.  Pour les surfaces de
+%révolution,~$\varphi$ est déterminée par une seule
+%fonction~$f:\mathbf{R}\to\mathbf{R}$ et l'EDP dévient une EDO pour~$f$.
+%D'autre côté,
+%selon le principe de Maupertuis, les trajectoires d'un système physique avec
+%potentiel~$V(\mathbf{q})$ et énergie totale~$E$ sont, à paramétrisation près,
+%les géodésiques de la métrique de
+%Jacobi~$g=\sqrt{E-V(\mathbf{q})}\ud\mathbf{q}^2$.  Ainsi, résoudre le problème du
+%plongement permettra de voir les trajectoires de tout système physique avec un
+%potentiel radial comme les géodésiques d'une surface concrète de l'espace.
+%On ne comprend pas pourquoi ces surfaces n'apparaissent pas sur la couverture
+%de tous les livres de mécanique.
 %L'objectif du stage est de prendre la loi de réfraction de Snell-Descartes
 %\begin{equation}\label{eq:snell}
 %\frac{\sin\theta_1}{v_1}=\frac{\sin\theta_2}{v_2}
@@ -106,8 +160,24 @@ de tous les livres de mécanique.
 %	$\ddot q^k = \Gamma^k_{ij}\,\dot q^i\,\dot q^j$
 %\end{tabular}
 
-{\bf Contexte.}
-Le principe de moindre action de Maupertuis
+\medskip
+
+{\footnotesize
+\begin{tabular}{ccc}
+	\includegraphics[width=0.15\linewidth]{f/georev.png}&
+	\includegraphics[width=0.35\linewidth]{f/analogy.jpg}&
+	\includegraphics[width=0.3\linewidth]{f/jacomarp.png}\\
+	Géodésiques~\cite{rouviere} sur des surfaces &
+	Analogie gravité/géométrie &
+	Plongements locaux~\cite{darbouxi} d'orbites\\
+	&
+	(dessin typique mais incorrect!) &
+	de Kepler comme géodésiques.
+\end{tabular}
+}
+
+\medskip
+
 %L'analogie entre optique et mécanique date des temps de Newton et
 %Bernouilli~\cite{broer}, qui l'a utilisée pour résoudre le problème de la
 %brachistocrhone (la forme de la pente qui permet d'y glisser avec le moindre
@@ -124,9 +194,10 @@ Le principe de moindre action de Maupertuis
 
 {\bf Déroulement.}
 Ce stage s'adresse aux étudiants qui souhaitent approfondir leurs connaissances
-en géométrie Riemannienne et en calcul des variations.  Selon les préférences
-des étudiants, on pourra faire plus ou moins des simulations par ordinateur
-afin de vérifier numériquement les résultats trouvés.
+en géométrie Riemannienne.  Selon les préférences des étudiants, on pourra
+faire plus ou moins des simulations par ordinateur afin de visualiser et
+vérifier les résultats trouvés.  Si on découvre des surfaces
+nouvelles, on pourra aussi les imprimer en 3D.
 
 
 \vspace{-1.5em}
@@ -134,7 +205,27 @@ afin de vérifier numériquement les résultats trouvés.
 %
 \begin{thebibliography}{99}
 \vspace{-1em}
-{\scriptsize
+{\footnotesize
+\bibitem{darbouxi}
+	A.~Albouy, L.~Zhao,
+	{\it Darboux Inversions of the Kepler Problem}
+	Regular and Chaotic Dynamics, 2022
+\bibitem{arnomech}
+	V.I.~Arnold,
+	{\it Méthodes Mathématiques de la Mécanique Classique}
+	Éditions Mir Moscou, 1976
+\bibitem{arnohooke}
+	V.I.~Arnold
+	{\it Huygens and Barrow, Newton and Hooke}
+	Birkhäuser, 1990
+\bibitem{moeckel}
+	R.~Moeckel,
+	{\it Embedding the Kepler Problem as a Surface of Revolution},
+	Regular and Chaotic Dynamics, 2018
+\bibitem{rouviere}
+	F.~Rouvière,
+	{\it Initiation à la géométrie de Riemann},
+	Calvage et Mounet, 2016
 %\bibitem{icaza}
 %	de~Icaza,~M.
 %	{\it Galileo, Bernoulli, Leibniz and Newton around the brachistocrhone
@@ -145,30 +236,31 @@ afin de vérifier numériquement les résultats trouvés.
 %	{\it Johann Bernoulli's brachistocrhone solution using Fermat's
 %		principle of least time},
 %	Eur.~J.~Phys.,~1999
-\bibitem{broer}
-	Broer,~H.~W.
-	{\it Bernoulli's light ray solution of the brachistocrhone problem
-		through Hamilton's eyes},
-	Int.~J.~Bifurc.~Chaos,~2014
-\bibitem{video}
-	3Blue1Brown
-	{\it The Brachistochrone, with Steven Strogatz},
-	\url{https://youtu.be/Cld0p3a43fU},~2016
-\bibitem{video2}
-	Veritasium
-	{\it The Closest We’ve Come to a Theory of Everything},
-	\url{https://youtu.be/Q10_srZ-pbs},~2024
-\bibitem{vdg}
-	Needham,~T.
-	{\it Visual differential geometry and forms.}
-	Princeton University Press,~2021
-\vspace{-0.5em}
-\bibitem{markvorsen}
-	Markvorsen,~S., et al.
-	{\it Snell's law revisited and generalized via Finsler geometry},
-	Int.~J.~Geom.~Methods~Mod.~Phys.,~2023
+%\bibitem{broer}
+%	Broer,~H.~W.
+%	{\it Bernoulli's light ray solution of the brachistocrhone problem
+%		through Hamilton's eyes},
+%	Int.~J.~Bifurc.~Chaos,~2014
+%\bibitem{video}
+%	3Blue1Brown
+%	{\it The Brachistochrone, with Steven Strogatz},
+%	\url{https://youtu.be/Cld0p3a43fU},~2016
+%\bibitem{video2}
+%	Veritasium
+%	{\it The Closest We’ve Come to a Theory of Everything},
+%	\url{https://youtu.be/Q10_srZ-pbs},~2024
+%\bibitem{vdg}
+%	Needham,~T.
+%	{\it Visual differential geometry and forms.}
+%	Princeton University Press,~2021
+%\vspace{-0.5em}
+%\bibitem{markvorsen}
+%	Markvorsen,~S., et al.
+%	{\it Snell's law revisited and generalized via Finsler geometry},
+%	Int.~J.~Geom.~Methods~Mod.~Phys.,~2023
 }
 \end{thebibliography}
+\end{document}
 
 \cleardoublepage
 \Large
