@@ -137,15 +137,9 @@
 \vfill
 	{\Large
 \begin{center}
-	 de la loi de Snell-Descartes\\
-	 aux symboles de Christoffel
+	Plongement des surfaces de Jacobi-Maupertuis
 \end{center}
 	}
-
- \vfill
-\begin{center}
-	\includegraphics[width=0.7\linewidth]{f/snellcrhi.png}
-\end{center}
 
 
  \vfill
@@ -156,9 +150,108 @@ enric.meinhardt@ens-paris-saclay.fr
 leo.nicollier@ens-paris-saclay.fr
 \end{frame}
 
+
 \addtocounter{framenumber}{-1}
 
 
+\begin{frame}
+ANALOGIES MÉCANIQUE/GÉOMÉTRIE\\
+=============================
+
+	\includegraphics[width=0.35\linewidth]{f/sheit2.png}~$ $%
+	\includegraphics[height=0.35\linewidth]{f/sheit1.jpg}
+
+	\includegraphics[width=0.7\linewidth]{f/analogy.jpg}
+
+\end{frame}
+
+
+\begin{frame}
+TRAJECTOIRES MÉCANIQUES VS. GÉODÉSIQUES\\
+=======================================
+
+\footnotesize
+\vfill
+
+\begin{columns}
+	\begin{column}{0.45\textwidth}
+		Géodésiques sur une variété
+
+		\[\color{blue}
+		\mathrm{
+			\begin{cases}
+		\ddot q^k = -\Gamma^k_{ij}\,\dot q^i\dot q^j\\
+				q(0) = q_0\\
+				\dot q(0) = v_0
+			\end{cases}
+	}
+		\]
+	\end{column}
+	\begin{column}{0.55\textwidth}
+		Trajectoires d'un système mécanique
+
+		\[\color{red}\mathrm{
+			\begin{cases}
+			\ddot q = -\nabla V(q)\\
+				q(0) = q_0\\
+				\dot q(0) = v_0
+			\end{cases}
+		}
+		\]
+	\end{column}
+\end{columns}
+
+\end{frame}
+
+
+
+\begin{frame}
+LE PRINCIPE DE MOINDRE ACTION\\
+=============================
+
+\vfill
+
+	\begin{columns}
+		\begin{column}{0.35\textwidth}
+			{\scriptsize Maupertuis 1744\\}
+			\includegraphics[width=\linewidth]{f/mauporig.jpg}
+		\end{column}
+		\begin{column}{0.6\textwidth}
+			\pause\footnotesize
+			{\bf Proposition} Dans un système mécanique
+			$\color{red}\ddot q=-\nabla V(q)$ les trajectoires sont
+			minimiseurs d'une action $\color{blue}A[q] =\int S(q(t),\dot q(t))\mathrm{d}t$\\\pause{\color{gray}(à reparamétrisation près)}
+
+			\bigskip
+			\pause
+			{\bf Métrique de Jacobi}
+			$S=\sqrt{2(E-V(q))}$
+		\end{column}
+	\end{columns}
+
+
+\end{frame}
+
+
+
+\begin{frame}
+THÉORÈME DE PLONGEMENT DE NASH\\
+==============================
+
+\end{frame}
+
+
+\begin{frame}
+SURFACES DE JACOBI-MAUPERTUIS\\
+=============================
+
+\end{frame}
+
+
+
+
+
+\end{document}
 
 %\begingroup
 %\setbeamertemplate{background}{\color{twback}\rule{\paperwidth}{\paperheight}}
