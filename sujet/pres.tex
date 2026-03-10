@@ -5,6 +5,7 @@
 \usepackage{inconsolata}     % for a nicer (e.g. non-courier) tt family font
 %\usepackage{amsthm,amsmath}  % fancier mathematics
 \usepackage{array} % to fine-tune tabular spacing
+\usepackage{tcolorbox} % boxes around text
 
 %\usepackage{graphicx}        % to include images
 \usepackage{graphbox}        % to include images
@@ -181,12 +182,19 @@ LE PRINCIPE DE MOINDRE ACTION\\
 			\pause\footnotesize
 			{\bf Proposition} Dans un système mécanique
 			$\color{red}\ddot q=-\nabla V(q)$ les trajectoires sont
-			minimiseurs d'une action $\color{blue}A[q] =\int S(q(t),\dot q(t))\mathrm{d}t$\\\pause{\color{gray}(à reparamétrisation près)}
+			minimiseurs d'une action $\color{blue}A[q] =\int S(q(t),\dot q(t))\,\mathrm{d}t$\\\pause{\color{gray}(à reparamétrisation près)}
 
 			\bigskip
 			\pause
 			{\bf Métrique de Jacobi}
 			$S=\sqrt{2(E-V(q))}$
+
+			\bigskip
+			\pause
+			\begin{tcolorbox}
+				{\bf En langage moderne:}\\
+				$q =$ courbes géodésiques d'une {\color{blue}variété Riemannienne}
+			\end{tcolorbox}
 		\end{column}
 	\end{columns}
 
@@ -239,6 +247,20 @@ TRAJECTOIRES MÉCANIQUES VS. GÉODÉSIQUES\\
 \begin{frame}
 THÉORÈME DE PLONGEMENT DE NASH\\
 ==============================
+
+
+	{\bf Théorème (Nash 1956).}
+	Toute variété riemannienne peut être plongée de manière isométrique dans un
+	espace euclidien {\color{gray}de dimension supérieure}.
+
+	\vfill
+
+	\begin{tabular}{cc}
+		\includegraphics[width=0.5\linewidth]{f/tissots.jpg} &
+		\includegraphics[width=0.45\linewidth]{f/sphere.jpg} \\
+		métrique en~$\mathbf{R}^2$ &
+		sous-variété de~$\mathbf{R}^3$
+	\end{tabular}
 
 \end{frame}
 
