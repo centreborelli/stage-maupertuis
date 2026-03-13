@@ -1,0 +1,142 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[french]{babel}
+\usepackage{amsmath}
+\usepackage[osf,sups]{Baskervaldx} % lining figures
+\usepackage[bigdelims,cmintegrals,vvarbb,baskervaldx]{newtxmath} % math font
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{url}
+\usepackage[hidelinks]{hyperref}
+
+% hyperrref configuration: remove ugly boxes and colors, keep urls in blue
+\hypersetup{colorlinks,linkcolor=black,citecolor=black,urlcolor={blue!80!black}}
+
+
+% paragraphs
+\setlength{\parindent}{0em}
+\setlength{\parskip}{1em}
+
+% margins
+\addtolength{\hoffset}{-3em}
+\addtolength{\textwidth}{6em}
+\addtolength{\voffset}{-3em}
+\addtolength{\textheight}{6em}
+
+% macros
+\def\ud{\mathrm{d}}
+
+\begin{document}
+
+\begin{center}\Large
+stage L3 : plan de travail semaines 1,2,3
+\end{center}
+
+{\bf EXERCICES DE GÉOMÉTRIE }
+
+{\bf Exercice 0. (trigonométrie)}
+Un filtre de cafè se plie à plat avec un angle droit à son sommet.  Une fois
+deplié il prend une forme conique.  Calculez l'angle du cône.
+
+{\bf Exercice 1. (géodésiques)}
+Caractérisez géométriquement les géodésiques d'un cône.
+Démontrez que toutes les géodésiques qui ne passent pas per le vertex sont
+similaires, et calculez le nombre d'intersections d'une géodésique en fonction
+de l'angle du cône.
+
+{\bf Exercice 2. (longueur Riemannienne)}
+Une métrique locale sur $\R^d$ est une fonction lisse~$g:\R^d\to S_n^{+}$
+(ensemble des matrices symétriques définies positives, assimilables à des
+formes bilinéaires).  On écrit~$g_x(u,v)=u^T g(x)v$.  La longueur d'une
+courbe paramétrée~$q:[a,b]\to\R^d$ est, par définition
+\[
+	\ell(q)=\int_a^b\sqrt{g_{q(t)}\left(\dot q(t),\dot q(t)\right)}\ud t
+\]
+Démontrez que la longueur est invariante par re-paramétrisation:
+$\ell(q\circ h)=\ell(q)$ pour toute~$h:\R\to\R$ dérivable avec~$h'>0$.
+
+{\bf Rappel.}
+Soit~$X$ un espace vectoriel normé et~$f:X\to\R$ une fonction différentiable.
+La dérivée directionnelle de~$f$ en~$x\in X$ dans la direction~$v\in X$ est,
+quand elle existe,
+\[
+	D_vf(x) = \lim_{\epsilon\to 0}\frac{f(x+\epsilon v)-f(x)}\epsilon
+\]
+Si~$f$ a un extremum en~$x$, alors les dérivées directionnelles de~$f$ en~$x$
+sont toujours~0.
+
+{\bf Exercice 3. (action vs. longueur)}
+Le plan euclidien est un cas particulier de l'exercice antérieur pour~$d=2$
+et~$g=\left(\begin{smallmatrix}1&0\\0&1\end{smallmatrix}\right)$.  On considère
+ainsi la longueur euclidienne~$\ell(q)=\int_a^b\left\|\dot q(t)\right\|\ud t$
+et l'\emph{action}~$A(q)=\frac12\int_a^b\left\|\dot q(t)\right\|^2\ud t$.
+
+{\bf 3.0.} Démontrez que les courbes qui minimisent l'action sont des droites
+paramétrées à vitesse constante~($\dot q=c$).
+
+{\bf 3.1.} Démontrez que si une courbe minimise l'action, alors elle minimise
+aussi la longueur {\sl (indication: Cauchy-Schwarz)}.
+
+{\bf 3.2.} Démontrez que les courbes qui minimisent la longueur sont des
+droites (paramétrées à vitesse quelconque).
+
+{\sl
+Indication pour 3.0 et 3.2: utiliser des dérivées directionnelles de~$A$ et
+de~$\ell$ sur des directions~$v$ qui sont des courbes qui s'annulent
+sur~$t=a,b$, puis intégrez par parties.
+}
+
+{\bf Exercice 4. (équations d'Euler-Lagrange)}
+Soit~$L:\R\times\R^d\times\R^d\to\R$ une fonction différentiable que l'on
+appellera~\emph{le Lagrangien}.  L'énergie d'une courbe~$q:[a,b]\to\R^d$ est
+\[
+	E(q)=\int_a^b L\left(t,q(t),\dot q(t)\right)\ud t.
+\]
+Démontrez que si une courbe~$q$ est minimum local de l'énergie, alors elle
+satisfait lesdites équations d'Euler-Lagrange
+\[
+	\frac{\partial L}{\partial q}-\frac{\ud}{\ud t}\frac{\partial
+	L}{\partial\dot q} = 0
+\]
+(système de~$n$ équations ordinaires, une pour chaque coordonnée
+de~$q$.)
+
+{\bf Exercice 5. (symboles de Christoffel d'une surface)}
+On considère une métrique locale sur le plan définie par un champ de matrices
+symétriques définies positives
+$(x,y)\mapsto\left(\begin{matrix}E(x,y)&F(x,y)\\F(x,y)&G(x,y)\end{matrix}\right)$.
+Démontrez que les courbes de longueur minimale par rapport à cette métrique
+(dites géodésiques) satisfont un système d'EDO de la forme
+\[
+\begin{cases}
+\ddot x=\Gamma^x_{xx}\dot x^2+\Gamma^x_{xy}\dot x\dot y+\Gamma^x_{yy}\dot y^2\\
+\ddot y=\Gamma^y_{xx}\dot x^2+\Gamma^y_{xy}\dot x\dot y+\Gamma^y_{yy}\dot y^2\\
+\end{cases}
+\]
+avec six fonctions~$\Gamma^k_{ij}$, dites les symboles de Christoffel, que l'on
+peut exprimer en termes des fonctions~$E,F,G$ et leurs dérivées premières.
+
+\clearpage
+
+{\bf EXERCICES DE PHYSIQUE }
+
+{\bf Exercice 0. (systèmes conservatifs)}
+Soit~$V$ un potentiel en~$R^d$.  Démontrez que si~$q$ est une trajectoire du
+système (c.à.d. une solution de l'équation~$\ddot q=-\nabla V(q)$) alors
+l'énérgie~$E=\tfrac12\left\|\dot q\right\|^2+V(q)$ est constante au long de la
+trajectoire.
+
+{\bf Exercice 1. (reparamétrisation d'une trajectoire)}
+Soit~$t\mapsto q(t)$ une trajectoire d'un système de potentiel~$V$ et~$t=t(s)$
+une réparamétrisation.  Écrivez l'équation satisfaite par la courbe~$s\mapsto
+q(t(s))$ et interprétez-la géométriquement.
+
+{\bf Exercice 2. (principe de Maupertuis)}
+On fixe~$E\in\R$ et on définit~$S(q)=\sqrt{2(E-V(q))}$ sur l'enseble de~$\R^d$
+determiné par la condition~$E\ge V$.  Demontrez que les courbes qui minimisent
+l'action~$A[q]=\int S$ sont des reparamétrisations de trajectoires.
+
+\end{document}
+
+
+% vim:set tw=79 sw=2 ts=2:
