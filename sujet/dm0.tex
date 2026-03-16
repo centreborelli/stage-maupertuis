@@ -18,10 +18,10 @@
 \setlength{\parskip}{1em}
 
 % margins
-\addtolength{\hoffset}{-3em}
-\addtolength{\textwidth}{6em}
-\addtolength{\voffset}{-3em}
-\addtolength{\textheight}{6em}
+\addtolength{\hoffset}{-4em}
+\addtolength{\textwidth}{8em}
+\addtolength{\voffset}{-4em}
+\addtolength{\textheight}{8em}
 
 % macros
 \def\ud{\mathrm{d}}
@@ -29,7 +29,7 @@
 
 \begin{document}
 
-\begin{center}\Large
+\begin{center}\LARGE
 stage L3 : plan de travail semaines 1,2,3
 \end{center}
 
@@ -38,12 +38,16 @@ stage L3 : plan de travail semaines 1,2,3
 {\bf Exercice 0. (trigonométrie)}
 Un filtre de cafè se plie à plat avec un angle droit à son sommet.  Une fois
 deplié il prend une forme conique.  Calculez l'angle du cône.
+\begin{center}
+	\includegraphics[width=0.5\linewidth]{f/v60.png}
+\end{center}
 
 {\bf Exercice 1. (géodésiques)}
 Caractérisez géométriquement les géodésiques d'un cône.
 Démontrez que toutes les géodésiques qui ne passent pas per le vertex sont
 similaires, et calculez le nombre d'intersections d'une géodésique en fonction
-de l'angle du cône.
+de l'angle du cône.  Caractérisez toutes les géodésiques qui sont des sections
+coniques.
 
 {\bf Exercice 2. (longueur Riemannienne)}
 Une métrique locale sur $\R^d$ est une fonction lisse~$g:\R^d\to S_n^{+}$
@@ -56,15 +60,15 @@ courbe paramétrée~$q:[a,b]\to\R^d$ est, par définition
 Démontrez que la longueur est invariante par re-paramétrisation:
 $\ell(q\circ h)=\ell(q)$ pour toute~$h:\R\to\R$ dérivable avec~$h'>0$.
 
-{\bf Rappel.}
-Soit~$X$ un espace vectoriel normé et~$f:X\to\R$ une fonction différentiable.
+{\bf Rappel. (dérivée directionnelle)}
+Soit~$X$ un espace vectoriel normé et~$f:X\to\R$.
 La dérivée directionnelle de~$f$ en~$x\in X$ dans la direction~$v\in X$ est,
 quand elle existe,
 \[
 	D_vf(x) = \lim_{\epsilon\to 0}\frac{f(x+\epsilon v)-f(x)}\epsilon
 \]
-Si~$f$ a un extremum en~$x$, alors les dérivées directionnelles de~$f$ en~$x$
-sont toujours~0.
+Si~$f$ est~$C^1$ et a un extremum en~$x$, alors les dérivées directionnelles de~$f$ en~$x$
+sont toujours~$0$.
 
 {\bf Exercice 3. (action vs. longueur)}
 Le plan euclidien est un cas particulier de l'exercice antérieur pour~$d=2$
@@ -102,20 +106,91 @@ satisfait lesdites équations d'Euler-Lagrange
 (système de~$n$ équations ordinaires, une pour chaque coordonnée
 de~$q$.)
 
+%{\sl Indication: 
+
 {\bf Exercice 5. (symboles de Christoffel d'une surface)}
 On considère une métrique locale sur le plan définie par un champ de matrices
 symétriques définies positives
 $(x,y)\mapsto\left(\begin{matrix}E(x,y)&F(x,y)\\F(x,y)&G(x,y)\end{matrix}\right)$.
+On écrit typiquement~$\ud s^2=E\ud x^2 + 2F\ud x\ud y+G\ud y^2$.
 Démontrez que les courbes de longueur minimale par rapport à cette métrique
 (dites géodésiques) satisfont un système d'EDO de la forme
 \[
 \begin{cases}
-\ddot x=\Gamma^x_{xx}\dot x^2+\Gamma^x_{xy}\dot x\dot y+\Gamma^x_{yy}\dot y^2\\
-\ddot y=\Gamma^y_{xx}\dot x^2+\Gamma^y_{xy}\dot x\dot y+\Gamma^y_{yy}\dot y^2\\
+\ddot x+\Gamma^x_{xx}\dot x^2+\Gamma^x_{xy}\dot x\dot y+\Gamma^x_{yy}\dot y^2=0\\
+\ddot y+\Gamma^y_{xx}\dot x^2+\Gamma^y_{xy}\dot x\dot y+\Gamma^y_{yy}\dot y^2=0\\
 \end{cases}
 \]
 avec six fonctions~$\Gamma^k_{ij}$, dites les symboles de Christoffel, que l'on
-peut exprimer en termes des fonctions~$E,F,G$ et leurs dérivées premières.
+peut exprimer en termes des fonctions~$E,F,G$ et leurs dérivées premières.\\
+{\sl Indication: calculez les équations d'Euler-Lagrange de l'action.}
+
+{\bf Exercice 7. (métriques radiales)}
+Si une métrique est radiale (elle dépend seulement de la
+distance~$r=\sqrt{x^2+y^2}$  l'origine), il est naturel de travailler en
+coordonnées polaires sur le plan.  Vérifiez alors que la metrique est de la
+forme~$\ud s^2=E(r)\ud r^2+G(r)r^2\ud\theta^2$.  Calculez les~$6$ symboles de
+Christoffel~$\Gamma^r_{rr},\Gamma^r_{r\theta},\ldots$ (ils ont des expressions
+très simples en termes des fonctions~$E$ et~$G$).
+
+
+{\bf Rappel (surfaces paramétrées).}
+Si on définit une surface paramétrée par une fonction~$\varphi:\R^2\to\R^3$,
+le~\emph{pull back} de la métrique Euclidienne de~$\R^3$ par~$\varphi$
+est la métrique sur~$\R^2$ définie par
+\[
+	E=\varphi_x\cdot\varphi_x
+	\qquad
+	F=\varphi_x\cdot\varphi_y
+	\qquad
+	G=\varphi_y\cdot\varphi_y
+\]
+Les symboles de Christoffel de cette métrique s'expriment en termes de~$E,F,G$
+et leurs dérivées premières, ou en termes des dérivées premières et secondes
+des trois composantes de~$\varphi$.  Les expressions sont très compliquées.
+
+{\bf Exercice 8. (surfaces de révolution)}
+Une surface de révolution s'obtient par rotation d'une courbe du plan~$(x,z)$
+autour de l'axe~$z$.  Il y a trois façons typiques de les paramétrer, selon si
+on décrit la courbe génératrice comme une fonction~$z=z(x)$, ou bien $x=x(z)$
+ou paramétrée~$t\mapsto(x(t),z(t))$, qui est le cas le plus général.
+Écrivez les symboles de christoffel dans ces trois cas, et faites le lien avec
+l'exercice~$7$.\\
+
+\begin{tabular}{ccc}
+	\includegraphics[width=0.3\linewidth]{f/rev1.pdf}&
+	\includegraphics[width=0.3\linewidth]{f/rev2.pdf}&
+	\includegraphics[width=0.3\linewidth]{f/rev3.pdf}\\
+	$r=10+\cos(z)$ &
+	$z=\cos(r)$ &
+	$(r,z)=(3+\cos(t),\sin(t))$
+\end{tabular}
+
+%SCRIPT cat <<END | gnuplot | pdfcrop - f/rev1.pdf
+%SCRIPT set term pdfcairo
+%SCRIPT set notics ; unset key
+%SCRIPT set parametric ; set view equal xyz
+%SCRIPT set isosamples 40,40 ; set hidden3d
+%SCRIPT splot [0:2*pi] [0:2*pi] (10+cos(3*u))*cos(v),(10+cos(3*u))*sin(v),u
+%SCRIPT END
+
+%SCRIPT cat <<END | gnuplot | pdfcrop - f/rev2.pdf
+%SCRIPT set term pdfcairo
+%SCRIPT set notics ; unset key
+%SCRIPT set parametric ; set view equal xyz
+%SCRIPT set isosamples 40,40 ; set hidden3d
+%SCRIPT splot [0:2*pi] [0:5*pi] v*cos(u),v*sin(u),cos(1.5*v)
+%SCRIPT END
+
+%SCRIPT cat <<END | gnuplot | pdfcrop - f/rev3.pdf
+%SCRIPT set term pdfcairo
+%SCRIPT set notics ; unset key
+%SCRIPT set parametric ; set view equal xyz
+%SCRIPT set isosamples 40,40 ; set hidden3d
+%SCRIPT splot [0:2*pi] [0:2*pi] (3+cos(u))*cos(v),(3+cos(u))*sin(v),sin(u)
+%SCRIPT END
+
+
 
 \clearpage
 
