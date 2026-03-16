@@ -166,15 +166,20 @@ l'exercice~$7$.\\
 	$(r,z)=(3+\cos(t),\sin(t))$
 \end{tabular}
 
-%SCRIPT cat <<END | gnuplot | pdfcrop - f/rev1.pdf
+%SCRIPT cat <<END | gnuplot | pdfcrop - f/rev1.pdf -q
 %SCRIPT set term pdfcairo
 %SCRIPT set notics ; unset key
 %SCRIPT set parametric ; set view equal xyz
 %SCRIPT set isosamples 40,40 ; set hidden3d
-%SCRIPT splot [0:2*pi] [0:2*pi] (10+cos(3*u))*cos(v),(10+cos(3*u))*sin(v),u
+%%SCRIPT set xrange [-16:16]
+%%SCRIPT set yrange [-16:16]
+%%SCRIPT set zrange [0:14]
+%SCRIPT set xyplane at 0
+%%SCRIPT splot [0:2*pi] [0:2*pi] (10+cos(3*u))*cos(v),(10+cos(3*u))*sin(v),u
+%SCRIPT splot [0:2*pi] [0:4*pi] (2+cos(v)/6)*cos(u),(2+cos(v)/6)*sin(u),v/8
 %SCRIPT END
 
-%SCRIPT cat <<END | gnuplot | pdfcrop - f/rev2.pdf
+%SCRIPT cat <<END | gnuplot | pdfcrop - f/rev2.pdf -q
 %SCRIPT set term pdfcairo
 %SCRIPT set notics ; unset key
 %SCRIPT set parametric ; set view equal xyz
@@ -182,11 +187,12 @@ l'exercice~$7$.\\
 %SCRIPT splot [0:2*pi] [0:5*pi] v*cos(u),v*sin(u),cos(1.5*v)
 %SCRIPT END
 
-%SCRIPT cat <<END | gnuplot | pdfcrop - f/rev3.pdf
+%SCRIPT cat <<END | gnuplot | pdfcrop - f/rev3.pdf -q
 %SCRIPT set term pdfcairo
 %SCRIPT set notics ; unset key
 %SCRIPT set parametric ; set view equal xyz
 %SCRIPT set isosamples 40,40 ; set hidden3d
+%SCRIPT set xyplane at -1
 %SCRIPT splot [0:2*pi] [0:2*pi] (3+cos(u))*cos(v),(3+cos(u))*sin(v),sin(u)
 %SCRIPT END
 
