@@ -1,9 +1,8 @@
 \documentclass[a4paper,11pt]{article}
-\usepackage[utf8]{inputenc}
 \usepackage[french]{babel}
 \usepackage{amsmath}
 \usepackage[osf,sups]{Baskervaldx} % lining figures
-\usepackage[bigdelims,cmintegrals,vvarbb,baskervaldx]{newtxmath} % math font
+\usepackage[bigdelims,cmintegrals,vvarbb,frenchmath,baskervaldx]{newtxmath} % math font
 \usepackage{graphicx}
 \usepackage{xcolor}
 \usepackage{url}
@@ -18,10 +17,10 @@
 \setlength{\parskip}{1em}
 
 % margins
-\addtolength{\hoffset}{-4em}
-\addtolength{\textwidth}{8em}
-\addtolength{\voffset}{-4em}
-\addtolength{\textheight}{8em}
+\addtolength{\hoffset}{-4.5em}
+\addtolength{\textwidth}{9em}
+\addtolength{\voffset}{-4.5em}
+\addtolength{\textheight}{9em}
 
 % macros
 \def\ud{\mathrm{d}}
@@ -36,8 +35,9 @@ stage L3 : plan de travail semaines 1,2,3
 {\bf EXERCICES DE GÉOMÉTRIE }
 
 {\bf Exercice 0. (trigonométrie)}
-Un filtre de cafè se plie à plat avec un angle droit à son sommet.  Une fois
-deplié il prend une forme conique.  Calculez l'angle du cône.
+Un filtre de cafè se plie à plat avec un angle droit à son sommet.  Deplié, il
+prend une forme conique.  Calculez l'angle du cône et écrivez son
+équation~$F(x,y,z)=0$.
 \begin{center}
 	\includegraphics[width=0.5\linewidth]{f/v60.png}
 \end{center}
@@ -128,7 +128,7 @@ peut exprimer en termes des fonctions~$E,F,G$ et leurs dérivées premières.\\
 {\bf Exercice 7. (métriques radiales)}
 Si une métrique est radiale (elle dépend seulement de la
 distance~$r=\sqrt{x^2+y^2}$  l'origine), il est naturel de travailler en
-coordonnées polaires sur le plan.  Vérifiez alors que la metrique est de la
+coordonnées polaires sur le plan.  Vérifiez alors que la métrique est de la
 forme~$\ud s^2=E(r)\ud r^2+G(r)r^2\ud\theta^2$.  Calculez les~$6$ symboles de
 Christoffel~$\Gamma^r_{rr},\Gamma^r_{r\theta},\ldots$ (ils ont des expressions
 très simples en termes des fonctions~$E$ et~$G$).
@@ -154,7 +154,7 @@ Une surface de révolution s'obtient par rotation d'une courbe du plan~$(x,z)$
 autour de l'axe~$z$.  Il y a trois façons typiques de les paramétrer, selon si
 on décrit la courbe génératrice comme une fonction~$z=z(x)$, ou bien $x=x(z)$
 ou paramétrée~$t\mapsto(x(t),z(t))$, qui est le cas le plus général.
-Écrivez les symboles de christoffel dans ces trois cas, et faites le lien avec
+Écrivez les symboles de Christoffel dans ces trois cas, et faites le lien avec
 l'exercice~$7$.\\
 
 \begin{tabular}{ccc}
@@ -203,20 +203,84 @@ l'exercice~$7$.\\
 {\bf EXERCICES DE PHYSIQUE }
 
 {\bf Exercice 0. (systèmes conservatifs)}
-Soit~$V$ un potentiel en~$R^d$.  Démontrez que si~$q$ est une trajectoire du
-système (c.à.d. une solution de l'équation~$\ddot q=-\nabla V(q)$) alors
-l'énérgie~$E=\tfrac12\left\|\dot q\right\|^2+V(q)$ est constante au long de la
-trajectoire.
+Soit~$V$ un potentiel en~$\R^d$.  Démontrez que si~$q$ est une trajectoire du
+système mécanique (c.à.d. une solution de l'équation~$\ddot q=-\nabla V(q)$)
+alors l'énergie~$E=\tfrac12\left\|\dot q\right\|^2+V(q)$ est constante au long
+de la trajectoire.
 
 {\bf Exercice 1. (reparamétrisation d'une trajectoire)}
 Soit~$t\mapsto q(t)$ une trajectoire d'un système de potentiel~$V$ et~$t=t(s)$
-une réparamétrisation.  Écrivez l'équation satisfaite par la courbe~$s\mapsto
+une reparamétrisation.  Écrivez l'équation satisfaite par la courbe~$s\mapsto
 q(t(s))$ et interprétez-la géométriquement.
 
 {\bf Exercice 2. (principe de Maupertuis)}
-On fixe~$E\in\R$ et on définit~$S(q)=\sqrt{2(E-V(q))}$ sur l'enseble de~$\R^d$
-determiné par la condition~$E\ge V$.  Demontrez que les courbes qui minimisent
-l'action~$A[q]=\int S$ sont des reparamétrisations de trajectoires.
+On fixe~$E\in\R$ et on définit~$S(q)=\sqrt{2(E-V(q))}$ sur l'ensemble de~$\R^d$
+déterminé par la condition~$E\ge V$.  Démontrez que les courbes qui minimisent
+l'action~$A[q]=\int S$ sont des reparamétrisations de trajectoires
+d'énergie~$E$.
+
+{\bf Exercice 3. (théorème de Noether)}
+Soit~$\{\phi_s:\R^d\to\R^d\}$ une groupe de transformations à un paramètre
+(c.à.d.~$\phi_0$ est l'identité et~$\phi_s\circ\phi_t=\phi_{s+t}$).
+Le générateur infinitésimal du groupe est le champ de
+vecteurs~$X(q)=\left.\frac{\ud}{\ud s}\right|_{s=0}\phi_s(q)$.  On dit
+que~$\phi$ est une~\emph{symétrie} du système mécanique
+si~$V(\phi_s(q))=V(q)\ \forall s,q$.  Démontrez que si~$q(t)$ est une
+trajectoire du système, alors la quantité~$p_X(t)=X(q(t))\cdot\dot q(t)$ est
+conservée.
+%Donnez quelques exemples concrets: symétrie rotationnelle$\mapsto$
+%conservation du moment angulaire, symétrie par translation en
+%horizontale$\mapsto$ conservation de la
+%Exemples: la simétrie rotationnelle est générée
+%par~$\frac{\partial}{\partial\theta}$ et donne lieu à la conservation du 
+
+{\bf Exercice 4. (intégration de variables cycliques)}
+Les quantités conservées, dites~\emph{moments}, permettent chacune de réduire
+d'une équation le système~$\ddot q=-\nabla V(q)$, car elles y rajoutent la
+condition scalaire~$X(q)\cdot\dot q=p_X$.
+Vérifiez avec les deux exemples qui nous concernent: la symétrie
+rotationnelle~$\frac{\partial}{\partial\theta}V=0$ et l'invariance par
+translations horizontales~$\frac{\partial}{\partial x}V=0$ (donnent
+respectivement la conservtion des moments angulaire~$p_\theta=r^2\dot\theta$ et
+horizontal~$p_x=\dot x$).
+
+{\bf Exercice 5. (symétrie et géodésiques)}
+Soit~$\left(\begin{smallmatrix}E&F\\F&G\end{smallmatrix}\right)$ une métrique
+Riemannienene sur~$\R^2$.  Démontrez que si la métrique ne dépend pas de~$x$,
+alors la quantité~$E(x,y)\dot x+F(x,y)\dot y$ est conservée au long des
+géodésiques.  Similairement, pour une métrique radiale~$\ud s^2=E(r)\left(\ud
+r^2+r^2\ud\theta^2\right)$, la quantité~$E(r)r^2\dot\theta$ est conservée.
+
+{\bf Exercice 6. (potentiels classiques)} Écrivez les métriques Riemannienes
+correspondantes aux potentiels classiques~$V=r^\alpha$,
+$V=\log(r)$, et~$V=-gh$.  Vérifiez que pour le potentiel de Hooke~$\alpha=-1$
+les trajectoires sont des ellipses centrées à l'origine, et pour~$V=gh$ on
+obtient le tir parabolique.
+
+%{\bf Exercice 7. (oscillateur de Hooke)}
+%Démontrez que les trajectoires pour le potentiel de Hooke ($\alpha=2$) sont des
+%ellipses centrées à l'origine.
+
+%{\bf Exercice 8. (tir parabolique)}
+%Démontrez que les trajectoires pour le potentiel gravitationnel proche de la
+%surface de la terre ($V=-gh$) sont des paraboles.
+
+{\bf Exercice 7. (orbites de Kepler)}
+Démontrez que les trajectoires pour le potentiel de Newton ($\alpha=-1$) sont
+des sections coniques avec un foyer à l'origine.  Caractérisez les familles
+d'orbites de la même énergie totale.\\
+{\sl Indication: c'est un exercice difficile et lourd à faire directement, mais
+avec des astuces (e.g. inversion de MacLaurin, transformation de Bohlin) il
+devient très rapide.}
+
+{\bf Exercice 10. (précession du périastre)}
+Pour calculer numériquement l'orbite de Mercure, Einstein n'a pas utilisé la
+relativité générale toute entière, mais une ``perturbation'' du potentiel de
+Newton de la forme $V(r)=-\frac1r\left(1+\frac{\alpha}{r^2}\right)$
+avec~$\alpha$ très petit~$\approx1/c^2$.  Pouvez-vous justifier que le
+périastre ``avance'' un peu à chaque orbite?
+
+\includegraphics[width=0.2\linewidth]{f/periastre.png}
 
 \end{document}
 
