@@ -251,18 +251,18 @@ q(t(s))$ et interprétez-la géométriquement.
 {\bf Exercice 2. (principe de Maupertuis)}
 On fixe~$E\in\R$ et on définit~$S(q)=\sqrt{2(E-V(q))}$ sur l'ensemble de~$\R^d$
 déterminé par la condition~$E\ge V$.  Démontrez que les courbes qui minimisent
-l'action~$A[q]=\int S$ sont des reparamétrisations de trajectoires
+l'action~$A[q]=\tfrac\int S^2$ sont des reparamétrisations de trajectoires
 d'énergie~$E$.
 
 {\bf Exercice 3. (théorème de Noether)}
 Soit~$\{\phi_s:\R^d\to\R^d\}$ une groupe de transformations à un paramètre
-(c.à.d.~$\phi_0$ est l'identité et~$\phi_s\circ\phi_t=\phi_{s+t}$).
-Le générateur infinitésimal du groupe est le champ de
+(c.à.d.~$\phi_0$ est l'identité et~$\phi_s\circ\phi_t=\phi_{s+t}$).  Le
+générateur infinitésimal du groupe est le champ de
 vecteurs~$X(q)=\left.\frac{\ud}{\ud s}\right|_{s=0}\phi_s(q)$.  On dit
-que~$\phi$ est une~\emph{symétrie} du système mécanique
-si~$V(\phi_s(q))=V(q)\ \forall s,q$.  Démontrez que si~$q(t)$ est une
-trajectoire du système, alors la quantité~$p_X(t)=X(q(t))\cdot\dot q(t)$ est
-conservée.
+que~$\phi$ est une~\emph{symétrie} du système mécanique à lagrangien~$L$
+si~$L(\phi_s(q),\mathrm{d}\phi_s(q)\cdot\dot q)=L(q,\dot q)\ \forall s$.
+Démontrez que si~$q(t)$ est une trajectoire du système, alors la
+quantité~$p_X(t)=X(q(t))\cdot\dot q(t)$ est conservée.
 %Donnez quelques exemples concrets: symétrie rotationnelle$\mapsto$
 %conservation du moment angulaire, symétrie par translation en
 %horizontale$\mapsto$ conservation de la
