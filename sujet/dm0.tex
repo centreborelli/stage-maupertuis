@@ -126,12 +126,19 @@ peut exprimer en termes des fonctions~$E,F,G$ et leurs dérivées premières.\\
 {\sl Indication: calculez les équations d'Euler-Lagrange de l'action.}
 
 {\bf Exercice 7. (métriques radiales)}
-Si une métrique est radiale (elle dépend seulement de la
-distance~$r=\sqrt{x^2+y^2}$  l'origine), il est naturel de travailler en
+Si une métrique est invariante par rotation,
+%distance~$r=\sqrt{x^2+y^2}$  l'origine),
+il est naturel de travailler en
 coordonnées polaires sur le plan.  Vérifiez alors que la métrique est de la
-forme~$\ud s^2=E(r)\ud r^2+G(r)r^2\ud\theta^2$.  Calculez les~$6$ symboles de
+forme~$\ud s^2=E(r)\left(\ud r^2+r^2\ud\theta^2\right)$.  Calculez les~$6$ symboles de
 Christoffel~$\Gamma^r_{rr},\Gamma^r_{r\theta},\ldots$ (ils ont des expressions
-très simples en termes des fonctions~$E$ et~$G$).
+très simples en termes de~$E$).
+{\sl(Indication: la métrique est un tenseur d'ordre 2, dont le changement de
+variables se fait ainsi:
+$g_{ij}(x)=\tilde{g}_{ab}(u) \frac{\partial u^a}{\partial x_i} \frac{\partial
+u^b}{\partial x_j}$, ou en notation
+matricielle~$\mathbf{g}(x)=D\phi^T\tilde{\mathbf{g}}\left(\phi(x)\right)D\phi$,
+avec~$u=\phi(x)$.)}
 
 
 {\bf Rappel (surfaces paramétrées).}
@@ -260,9 +267,9 @@ Soit~$\{\phi_s:\R^d\to\R^d\}$ une groupe de transformations à un paramètre
 générateur infinitésimal du groupe est le champ de
 vecteurs~$X(q)=\left.\frac{\ud}{\ud s}\right|_{s=0}\phi_s(q)$.  On dit
 que~$\phi$ est une~\emph{symétrie} du système mécanique à lagrangien~$L$
-si~$L(\phi_s(q),\mathrm{d}\phi_s(q)\cdot\dot q)=L(q,\dot q)\ \forall s$.
+si~$L(q,\dot q)=L(\phi_s(q),\,D\phi_s(q)\cdot\dot q)\ \ \forall s$.
 Démontrez que si~$q(t)$ est une trajectoire du système, alors la
-quantité~$p_X(t)=X(q(t))\cdot\dot q(t)$ est conservée.
+quantité~$p_X(t)=X(q(t))\cdot\frac{\partial L}{\partial\dot q}$ est conservée.
 %Donnez quelques exemples concrets: symétrie rotationnelle$\mapsto$
 %conservation du moment angulaire, symétrie par translation en
 %horizontale$\mapsto$ conservation de la
