@@ -1,0 +1,25 @@
+jmgs
+
+
+RIGHT CLICK : change init point
+DRAG ON BACKGROUND : shift domain
+SCROLL ON BACKGROUND : zoom domain
+
+SCROLL ON PARAMETERS : change their values
+
+, : take screenshot
+h/H : change the "skip" for visualizing the points
+m : switch mode
+
+mode 0 "potential"
+ - palette is gray and represents the value of the potential V
+ - trajectory is computed from q''=-grad(V)
+
+mode 1 "metric"
+ - palette is beige and represents the conformal factor S=sqrt(2(E-V))
+ - tissot's indicatrices shown as pink circles
+ - trajectory is a geodesic computed from the geodesic equations in hamiltonian
+   formulation
+
+mode 2 "curvature"
+ - palette is red<0, white=0, blue>0
