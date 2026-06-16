@@ -49,11 +49,12 @@ struct jmg_state {
 	float tissot_scale;
 
 	// trajectories and geodesics
-	float j0, v0;   // initial angle and speed (cauchy data)
-	int solver;     // 0,1=euler direct,symplectic 2=vel.verlet 3=yosida
-	float tstep;    // timestep
-	int N;          // number of steps
-	float nskip;      // number of points to skip (just for visualization)
+	float j0, v0;  // initial angle and speed (cauchy data)
+	int solver;    // 0,1=euler direct,symplectic 2=vel.verlet 3=yosida
+	float tstep;   // timestep
+	int N;         // number of steps
+	float nskip;   // number of points to skip (just for visualization)
+	float gstep;   // separation of departing geodesics in "curvature mode"
 
 	// gui
 	struct bitmap_font font[1];
@@ -91,6 +92,7 @@ static void init_state(struct jmg_state *e, int w, int h)
 	e->N = 100;
 	e->tstep = 0.015625;
 	e->nskip = 1;
+	e->gstep = 0.1;
 
 	e->tissot_n = 27;
 	e->tissot_scale = 5;
@@ -383,6 +385,8 @@ static void geodesic_euler_sym(float *o,   // output points
 	}
 }
 
+// geometry is implicit in global "metric_field" and "metric_gradient"
+typedef void (*geodesic_solver)(float*,float[2],float[2],int,float);
 
 static void action_screenshot(struct FTR *f)
 {
@@ -761,10 +765,11 @@ static void event_expose(struct FTR *f, int ev_b, int ev_m, int ev_x, int ev_y)
 	int N = e->N;
 	float tstep = e->tstep;
 	float nskip = e->nskip;
+	// when dragging, use fast settings for solver
 	if (e->dragging_background)
 	{
-		N = 100;
-		tstep = 0.015625;
+		N = 1000;
+		tstep = pow(2,-9);
 		nskip = 1;
 	}
 
@@ -794,17 +799,43 @@ static void event_expose(struct FTR *f, int ev_b, int ev_m, int ev_x, int ev_y)
 		metric_field(qqq);
 		metric_gradient(0, qqq);
 		float pp[2*N];
-		if (e->solver == 0)
-			geodesic_euler(pp, e->x, V, N, tstep);
-		else
-			geodesic_euler_sym(pp, e->x, V, N, tstep);
+		geodesic_solver s = e->solver == 0 ?
+			geodesic_euler : geodesic_euler_sym;
+		s(pp, e->x, V, N, tstep);
+		uint8_t *kolor = red;//e->bg_mode > 1 ? black : red;
 		for (int i = 0; i < N; i += nskip)
 		{
 			float ow[2];
 			win_from_xy(ow, e, pp + 2*i);
-			splat_disk(f->rgb, f->w, f->h, ow, 3.3, red);
+			splat_disk(f->rgb, f->w, f->h, ow, 3.3, kolor);
 		}
 
+	}
+	if (e->bg_mode == 2) {
+		float qqq[3] = {NAN, e->a, e->E};
+		metric_field(qqq);
+		metric_gradient(0, qqq);
+		float n[2] = {-V[1]/hypot(V[0],V[1]), V[0]/hypot(V[0],V[1])};
+		float p[3][2*N];
+		float x0[3][2] = {
+			{e->x[0] + 0, e->x[1] + 0},
+			{e->x[0] + e->gstep * n[0], e->x[1] + e->gstep * n[1]},
+			{e->x[0] - e->gstep * n[0], e->x[1] - e->gstep * n[1]}
+		};
+		geodesic_solver s = e->solver?geodesic_euler_sym:geodesic_euler;
+		s(p[0], x0[0], V, N, tstep);
+		s(p[1], x0[1], V, N, tstep);
+		s(p[2], x0[2], V, N, tstep);
+		for (int i = 0; i < N; i += nskip)
+		{
+			float ow[2];
+			win_from_xy(ow, e, p[0] + 2*i);
+			splat_disk(f->rgb, f->w, f->h, ow, 3.3, black);
+			win_from_xy(ow, e, p[1] + 2*i);
+			splat_disk(f->rgb, f->w, f->h, ow, 3.3, red);
+			win_from_xy(ow, e, p[2] + 2*i);
+			splat_disk(f->rgb, f->w, f->h, ow, 3.3, dgreen);
+		}
 	}
 
 
@@ -910,10 +941,12 @@ static void event_key(struct FTR *f, int k, int m, int x, int y)
 
 	struct jmg_state *e = f->userdata;
 	if (k == ',') action_screenshot(f);
-	if (k == 'm') cycle_int(&e->bg_mode, 1, 3);
-	if (k == 'M') cycle_int(&e->bg_mode, -1, 3);
+	if (k == 'm' || k == ' ') cycle_int(&e->bg_mode, 1, 3);
+	if (k == 'M' || k == '\b') cycle_int(&e->bg_mode, -1, 3);
 	if (k == 'h') scale_float(&e->nskip, 2);
 	if (k == 'H') scale_float(&e->nskip, 0.5);
+	if (k == 'd') scale_float(&e->gstep, cbrt(2));
+	if (k == 'D') scale_float(&e->gstep, 1/cbrt(2));
 	if (e->nskip < 1) e->nskip = 1;
 
 	f->changed = 1;
