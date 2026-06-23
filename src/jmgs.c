@@ -5,9 +5,14 @@
 // corresponding to parabolic orbits is E=1, not E=0
 //
 // TODO:
+// - write small doc
+// - emscripten total feature parity
+// - enable key controls for all parameters
+// - allow to set all parameters from command line
+// - enable headless mode, to write an output file without opening a window
+// DONE
 // - implement solver for geodesic equations (geometric leapfrog?)
 // - allow pan and zoom of the domain
-// DONE
 // - add global toggle for mechanics/geometry modes
 // - implement symplectic euler method for trajectories q''=-grad(V)(q)
 //   Required state variables: nsteps, hstep, v0_angle
@@ -16,9 +21,10 @@
 //   Required state variables: tissot_scale, tissot_n
 
 
-#include <math.h>     // fmod, floor
+#include <math.h>     // exp, pow
 #include <stdbool.h>  // bool
 #include <stdio.h>    // fprintf, stdout, stderr
+#include <unistd.h>   // getpid
 #include "ftr.h"      // ftr
 
 // bitmap fonts
@@ -58,6 +64,7 @@ struct jmg_state {
 
 	// gui
 	struct bitmap_font font[1];
+	int hud;
 
 	// dragging state
 	bool dragging_background;
@@ -83,14 +90,14 @@ static void init_state(struct jmg_state *e, int w, int h)
 
 	e->bg_mode = 1;
 	e->bg_A = 1;
-	e->x[0] = 1;
+	e->x[0] = 0.7;
 	e->x[1] = 0;
 
-	e->j0 = 20;
+	e->j0 = 120;
 	e->v0 = 0.5;
 	e->solver = 0;
-	e->N = 100;
-	e->tstep = 0.015625;
+	e->N = 500;
+	e->tstep = pow(2,-7);
 	e->nskip = 1;
 	e->gstep = 0.1;
 
@@ -99,6 +106,7 @@ static void init_state(struct jmg_state *e, int w, int h)
 
 	//e->font[0] = reformat_font(*xfont_10x20, UNPACKED);
 	e->font[0] = reformat_font(*xfont_9x18B, UNPACKED);
+	e->hud = 1;
 
 	e->dragging_background = false;
 }
@@ -394,9 +402,11 @@ static void action_screenshot(struct FTR *f)
 	int p = getpid();
 	char n[FILENAME_MAX];
 	snprintf(n, FILENAME_MAX, "screenshot_jmgs_%d_%d.png", p, c);
+#ifndef __EMSCRIPTEN__
 	void iio_write_image_uint8_vec(char*,uint8_t*,int,int,int);
 	iio_write_image_uint8_vec(n, f->rgb, f->w, f->h, 3);
 	fprintf(stderr, "wrote sreenshot on file \"%s\"\n", n);
+#endif
 	c += 1;
 }
 
@@ -688,8 +698,8 @@ static void event_expose(struct FTR *f, int ev_b, int ev_m, int ev_x, int ev_y)
 
 	// tissots
 	if (e->bg_mode > 0) // metric
-	for (int j = 0; j < e->tissot_n; j++)
-	for (int i = 0; i < e->tissot_n; i++)
+	for (int j = 0; j <= e->tissot_n; j++)
+	for (int i = 0; i <= e->tissot_n; i++)
 	{
 		float pw[2] = {i*e->w*1.0/e->tissot_n, j*e->h*1.0/e->tissot_n};
 		float p[2];
@@ -749,7 +759,7 @@ static void event_expose(struct FTR *f, int ev_b, int ev_m, int ev_x, int ev_y)
 		float r = hypot(e->x[0], e->x[1]);
 		e->v0 = sqrt(2*(e->E - potential(e->a, r))/e->m);
 	}
-	float θ = e->j0 * M_PI / 180;
+	float θ = -e->j0 * M_PI / 180;
 	float V[2] = { e->v0 * cos(θ), e->v0 * sin(θ) }, PV[2], PVw[2];
 	PV[0] = P[0] + V[0];
 	PV[1] = P[1] + V[1];
@@ -830,15 +840,16 @@ static void event_expose(struct FTR *f, int ev_b, int ev_m, int ev_x, int ev_y)
 		{
 			float ow[2];
 			win_from_xy(ow, e, p[0] + 2*i);
-			splat_disk(f->rgb, f->w, f->h, ow, 3.3, black);
+			splat_disk(f->rgb, f->w, f->h, ow, 1.7, black);
 			win_from_xy(ow, e, p[1] + 2*i);
-			splat_disk(f->rgb, f->w, f->h, ow, 3.3, red);
+			splat_disk(f->rgb, f->w, f->h, ow, 1.7, red);
 			win_from_xy(ow, e, p[2] + 2*i);
-			splat_disk(f->rgb, f->w, f->h, ow, 3.3, dgreen);
+			splat_disk(f->rgb, f->w, f->h, ow, 1.7, dgreen);
 		}
 	}
 
 
+	if (!e->hud) goto end_expose;
 
 	// hud
 	uint8_t *hud_fg = dgreen;
@@ -851,15 +862,17 @@ static void event_expose(struct FTR *f, int ev_b, int ev_m, int ev_x, int ev_y)
 	snprintf(buf, 0x200,
 			"a (potential)  = %g\n"
 			"E (energy)     = %g\n"
-			"m (mass)       = %g\n"
-			"A (bg scale)   = %g\n"
+			"b (bg scale)   = %g\n"
 			"j0 (angle)     = %g\n"
 			"v0 (speed)     = %g\n"
-			"solver         = %d\n"
+			"s (solver)     = %d\n"
 			"N (nsteps)     = %d\n"
-			"h (timestep)   = %g\n",
-			e->a, e->E, e->m, e->bg_A, e->j0, e->v0,
-			e->solver, e->N, e->tstep
+			"t (timestep)   = %g\n"
+			"tissot step    = %d\n"
+			"tissot scale   = %g\n",
+			e->a, e->E, e->bg_A, e->j0, e->v0,
+			e->solver, e->N, e->tstep,
+			e->tissot_n, e->tissot_scale
 		);
 	put_string_in_rgb_image(f->rgb, f->w, f->h,
 			0, 0+0, hud_fg, hud_bg, 0, e->font, buf);
@@ -877,6 +890,14 @@ static void event_expose(struct FTR *f, int ev_b, int ev_m, int ev_x, int ev_y)
 	put_string_in_rgb_image(f->rgb, f->w, f->h, 0, 0+f->h-3*e->font->height,
 			pink, hud_bg, 0, e->font, buf);
 
+	// top-right hud with mode
+	if (e->bg_mode == 0) snprintf(buf, 0x200, " POTENTIAL ");
+	if (e->bg_mode == 1) snprintf(buf, 0x200, " METRIC ");
+	if (e->bg_mode == 2) snprintf(buf, 0x200, " CURVATURE ");
+	put_string_in_rgb_image(f->rgb, f->w, f->h, f->w/2, 0,
+			cyan, hud_bg, 0, e->font, buf);
+
+
 
 
 	//double fps = get_fps(frame_times, frame_counter);
@@ -888,6 +909,7 @@ static void event_expose(struct FTR *f, int ev_b, int ev_m, int ev_x, int ev_y)
 	//for (int i = 0; i < f->w * f->h * 3; i++)
 	//	f->rgb[i] = 255 - f->rgb[i];
 
+	end_expose:
 	f->changed = 1;
 }
 
@@ -940,6 +962,8 @@ static void event_key(struct FTR *f, int k, int m, int x, int y)
 	//fprintf(stderr, "\tevent KEY='%c' (%d)\n", k, k);
 
 	struct jmg_state *e = f->userdata;
+
+	// "hidden" keys (not visible directly in the hud)
 	if (k == ',') action_screenshot(f);
 	if (k == 'm' || k == ' ') cycle_int(&e->bg_mode, 1, 3);
 	if (k == 'M' || k == '\b') cycle_int(&e->bg_mode, -1, 3);
@@ -947,7 +971,25 @@ static void event_key(struct FTR *f, int k, int m, int x, int y)
 	if (k == 'H') scale_float(&e->nskip, 0.5);
 	if (k == 'd') scale_float(&e->gstep, cbrt(2));
 	if (k == 'D') scale_float(&e->gstep, 1/cbrt(2));
+	if (k == 'u') cycle_int(&e->hud, 1, 2);
 	if (e->nskip < 1) e->nskip = 1;
+
+	// same letter as they appear on the hud
+	if (k == 'a') shift_float(&e->a, -0.125);
+	if (k == 'A') shift_float(&e->a, +0.125);
+	if (k == 'e') shift_float(&e->a, -0.125);
+	if (k == 'E') shift_float(&e->a, +0.125);
+	if (k == 'b') shift_float(&e->bg_A, -0.125);
+	if (k == 'B') shift_float(&e->bg_A, +0.125);
+	if (k == 'j') shift_angle(&e->j0, +10);
+	if (k == 'J') shift_angle(&e->j0, -10);
+	if (k == 'n') scale_int(&e->N, 1.0/1.1);
+	if (k == 'N') scale_int(&e->N, 1.1/1.0);
+	if (k == 't') scale_float(&e->tstep, pow(2,-0.25));
+	if (k == 'T') scale_float(&e->tstep, pow(2,+0.25));
+	if (k == 's') cycle_int(&e->solver, +1, 4);
+	if (k == 'S') cycle_int(&e->solver, -1, 4);
+
 
 	f->changed = 1;
 }
@@ -956,6 +998,7 @@ static void event_key(struct FTR *f, int k, int m, int x, int y)
 static void event_button(struct FTR *f, int k, int m, int x, int y)
 {
 	struct jmg_state *e = f->userdata;
+	printf("event button k=%d m=%d x=%d y=%d\n", k, m, x, y);
 
 	// right-click : move query point
 	if (k == FTR_BUTTON_RIGHT)
@@ -971,35 +1014,33 @@ static void event_button(struct FTR *f, int k, int m, int x, int y)
 	// (hitboxes of font height)
 	int Y = y / e->font->height;
 	int X = x / e->font->width;
-	if (k == FTR_BUTTON_DOWN && x < 30 * e->font->width)
+	if (k == FTR_BUTTON_DOWN && x < 30 * e->font->width && e->hud)
 	{
 		if (Y == 0) shift_float(&e->a, -0.125);
 		if (Y == 1) shift_float(&e->E, -0.125);
-		if (Y == 2) shift_float(&e->m, -0.125);
-		if (Y == 3) shift_float(&e->bg_A, -0.125);
-		if (Y == 4) shift_angle(&e->j0, -10);
-		if (Y == 5) scale_float(&e->v0, 1/pow(2,0.25));
-		if (Y == 6) cycle_int(&e->solver, -1, 4);
-		if (Y == 7) scale_int(&e->N, 1.0/1.1);
-		if (Y == 8) scale_float(&e->tstep, 1/pow(2,0.25));
-		if (Y == 9) shift_int(&e->tissot_n, -1);
-		if (Y ==10) scale_float(&e->tissot_scale, 1/1.1);
+		if (Y == 2) shift_float(&e->bg_A, -0.125);
+		if (Y == 3) shift_angle(&e->j0, -10);
+		if (Y == 4) scale_float(&e->v0, 1/pow(2,0.25));
+		if (Y == 5) cycle_int(&e->solver, -1, 4);
+		if (Y == 6) scale_int(&e->N, 1.0/1.1);
+		if (Y == 7) scale_float(&e->tstep, 1/pow(2,0.25));
+		if (Y == 8) shift_int(&e->tissot_n, -1);
+		if (Y == 9) scale_float(&e->tissot_scale, 1/1.1);
 		f->changed = 1;
 		return;
 	}
-	if (k == FTR_BUTTON_UP && x < 30 * e->font->width)
+	if (k == FTR_BUTTON_UP && x < 30 * e->font->width && e->hud)
 	{
 		if (Y == 0) shift_float(&e->a, 0.125);
 		if (Y == 1) shift_float(&e->E, 0.125);
-		if (Y == 2) shift_float(&e->m, 0.125);
-		if (Y == 3) shift_float(&e->bg_A, 0.125);
-		if (Y == 4) shift_angle(&e->j0, 10);
-		if (Y == 5) scale_float(&e->v0, pow(2,0.25));
-		if (Y == 6) cycle_int(&e->solver, 1, 4);
-		if (Y == 7) scale_int(&e->N, 1.1);
-		if (Y == 8) scale_float(&e->tstep, pow(2,0.25));
-		if (Y == 9) shift_int(&e->tissot_n, 1);
-		if (Y ==10) scale_float(&e->tissot_scale, 1.1);
+		if (Y == 2) shift_float(&e->bg_A, 0.125);
+		if (Y == 3) shift_angle(&e->j0, 10);
+		if (Y == 4) scale_float(&e->v0, pow(2,0.25));
+		if (Y == 5) cycle_int(&e->solver, 1, 4);
+		if (Y == 6) scale_int(&e->N, 1.1);
+		if (Y == 7) scale_float(&e->tstep, pow(2,0.25));
+		if (Y == 8) shift_int(&e->tissot_n, 1);
+		if (Y == 9) scale_float(&e->tissot_scale, 1.1);
 		f->changed = 1;
 		return;
 	}
@@ -1035,8 +1076,8 @@ static void event_button(struct FTR *f, int k, int m, int x, int y)
 #include "pickopt.c"
 int main_jmgs(int c, char *v[])
 {
-	int w = atoi(pick_option(&c, &v, "w", "800"));
-	int h = atoi(pick_option(&c, &v, "h", "800"));
+	int w = 600;//atoi(pick_option(&c, &v, "w", "800"));
+	int h = 600;//atoi(pick_option(&c, &v, "h", "800"));
 
 	struct jmg_state e[1];
 	init_state(e, w, h);
@@ -1054,7 +1095,14 @@ int main_jmgs(int c, char *v[])
 	return 0;
 }
 
+#ifdef __EMSCRIPTEN__
+int main(void)
+{
+	int c = 1;
+	char *v[2] = {"jmgs", NULL};
+#else
 int main(int c, char *v[])
 {
+#endif
 	return main_jmgs(c, v);
 }
