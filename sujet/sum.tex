@@ -1,0 +1,137 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage[french]{babel}
+\usepackage{alphabeta}
+\usepackage{amsmath}
+\usepackage[osf,sups]{Baskervaldx} % lining figures
+\usepackage[bigdelims,cmintegrals,vvarbb,frenchmath,baskervaldx]{newtxmath} % math font
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{url}
+\usepackage[hidelinks]{hyperref}
+
+% hyperrref configuration: remove ugly boxes and colors, keep urls in blue
+\hypersetup{colorlinks,linkcolor=black,citecolor=black,urlcolor={blue!80!black}}
+
+
+% paragraphs
+\setlength{\parindent}{0em}
+\setlength{\parskip}{1em}
+
+% margins
+\addtolength{\hoffset}{-4.5em}
+\addtolength{\textwidth}{9em}
+\addtolength{\voffset}{-4.5em}
+\addtolength{\textheight}{9em}
+
+% macros
+\def\ud{\mathrm{d}}
+\def\R{\mathbf{R}}
+
+\begin{document}
+
+{\bf Métriques sur un ouvert du plan}\\
+Une métrique Riemanniene sur~$U\subseteq\R^2$ est la donnée de trois
+fonctions~$E,F,G:U\mapsto\R$ telles que~$E>0$ et~$EG-F^2>0$.  On dit que la
+métrique est conforme si~$E=G$ et~$F=0$.  Dans ce cas on écrit~$E=e^{2u}$.  La
+métrique euclidienne est le cas particulier~$u=0$.  Les métriques conformes
+s'écrivent ainsi en coordonées cartésienes et polaires
+\[
+	e^{2u}\left(\ud x^2+\ud y^2\right)
+	=
+	e^{2u}\left(\ud r^2+r^2\ud θ^2\right)
+\]
+
+{\bf Métrique induite par une paramétrisation}\\
+Soit~$U\subseteq\R^2$ un ouvert du plan et~$φ:U\to\R^3$ une surface
+paramétrée.  L'espace tangent à un point~$φ(x,y)$ de la surface est
+généré par les vecteurs~$φ_x$ et~$φ_y$.  La matrice de la métrique
+euclidienne sur cet espace tangent en cette base est la première forme
+fondamentale
+\[
+	%\begin{pmatrix}E&F\\F&G\end{pmatrix}
+	%=
+	\begin{pmatrix}φ_x\cdotφ_x&φ_x\cdotφ_y\\
+	φ_x\cdotφ_y&φ_y\cdotφ_y\end{pmatrix}
+\]
+Ces matrices déterminent une métrique Riemanniene sur~$U$ dite la métrique
+induite par la paramétrisation.
+
+{\bf Surface de révolution}\\
+Une application~$φ:\R^2\mapsto\R^3$ de la forme
+\[
+	φ
+	\begin{pmatrix}
+		r\\θ
+	\end{pmatrix}
+	=
+	\begin{pmatrix}
+		R(r)\cosθ\\R(r)\sinθ\\z(r)
+	\end{pmatrix}.
+\]
+La courbe génératrice est~$r\mapsto\begin{pmatrix}R(r)\\z(r)\end{pmatrix}$.
+La métrique induite est donnée par~$E=(R')^2+(z')^2$, $F=0$, $G=R^2$.
+
+{\bf Plongement isométrique local}\\
+Étant donnée une métrique sur~$U\subseteq\R^2$, on peut se poser la question
+si elle est la métrique induite par une paramétrisation~$φ:U\to\R^3$.
+Cela équivaut à résoudre le système de trois EDP d'ordre~$1$ suivant:
+\[
+	\begin{cases}
+		E=φ_x\cdotφ_x\\
+		F=φ_x\cdotφ_y\\
+		G=φ_y\cdotφ_y\\
+	\end{cases}
+\]
+
+{\bf Plongement d'une métrique conforme une surface de révolution}\\
+Si on veut plonger une métrique avec facteur conforme radial~$r\mapsto
+e^{2u(r)}$, c'est naturel de penser à une surface de révolution.
+L'équation à résoudre est
+un cas particulier du système d'EDP antérieur
+\[
+	\begin{cases}
+		(R')^2+(z')^2=e^{2u}\\
+		R^2=r^2e^{2u}
+	\end{cases}
+\]
+qui admet une solution explicite.  On trouve par la deuxième équation
+\[
+	R(r)=re^{u(r)}
+\]
+de sorte que~$R'(r)=(1+ru'(r))e^{u(r)}$.
+En remplaçant dans l'autre équation~:
+\[
+	(z'(r))^2=e^{2u(r)}\sqrt{1-\left(1+ru'(r)\right)^2}
+\]
+cette équation aura solution quand~$(1+ru')^2\le 1$, ou équivalemment
+\begin{equation}\label{eq:compatirev}
+	ru'(r)\in[-2,0]
+\end{equation}
+On appelle la condition~\ref{eq:compatirev} la ``condition de révolution''.
+Les fonctions~$u$ qui satisfont cette condition déterminent des métriques
+conformes qui peuvent se plonger isométriquement dans une surface de
+révolution.
+
+{\bf Jacobi-Maupertuis}\\
+Les trajectoires d'un système conservatif de potentiel~$V$ sont les solutions
+de l'équation~$\ddot q=-\nabla V(q)$.  L'énérgie d'une trajectoire
+est la quantité conservée~$E=\tfrac12\|\dot q\|^2+V(q)$.  Principe de
+Maupertuis~: les trajectoires d'énergie totale~$E$ sont, à réparamétrisation
+près, des géodésiques de la métrique de Jacobi~$\ud s^2=2(E-V(q)\ud q^2$.
+
+{\bf Potentiels centraux homogènes}\\
+On considère des potentiels de la forme~$V(r)=r^α/α$.  Pour~$E=0$ le facteur
+conforme de Jacobi est~$e^{2u(r)}=-2r^α/α$, ce qui force~$α<0$.  On a
+donc~$u(r)=\frac{α}{2}\log(r)+c$ et~$u'(r)=\frac{α}{2r}$. La condition de
+révolution pour ces métriques est alors~$α\in[-4,0]$.
+
+
+
+
+
+
+
+\end{document}
+
+
+% vim:set tw=79 sw=2 ts=2:
